@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %} 
+<!-- Container for the two columns -->
+
+<!-- Container for the two columns -->
+<div class="container-fluid h-100">
+    <!-- Row for the two columns -->
+    <div class="row h-100">
+      <!-- First column -->
+      <div class="col-6" style="height: 100vh;">
+        <div class="d-flex align-items-center h-100">
+          <div class="text-center">
+            <p>Line 1</p>
+            <p>Line 2</p>
+            <p>Line 3</p>
+            <br>
+            <a class="btn btn-primary" href="{% url 'user_app:register' %}">Sign up</a>
+            <br><br>
+            <a class="btn btn-secondary" href="{% url 'user_app:login' %}">Log in</a>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Second column -->
+      <div class="col-6 d-flex align-items-center justify-content-center" style="height: 100vh;">
+        <img src="{% static 'notes.svg' %}" class="img-fluid">
+      </div>
+    </div>
+  </div>
+{% endblock %}
