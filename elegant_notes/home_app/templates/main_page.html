@@ -4,26 +4,32 @@
 <!-- Container for the two columns -->
 
 <!-- Container for the two columns -->
-<div class="container-fluid h-100">
+<div class="container-fluid">
     <!-- Row for the two columns -->
-    <div class="row h-100">
+    <div class="row">
       <!-- First column -->
-      <div class="col-6" style="height: 100vh;">
-        <div class="d-flex align-items-center h-100">
-          <div class="text-center">
+      <div class="col-6" style="height: calc(100vh - 70px);">
+        <div style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;">
+          <div style="text-align: center;">
             <p>Line 1</p>
             <p>Line 2</p>
             <p>Line 3</p>
             <br>
-            <a class="btn btn-primary" href="{% url 'user_app:register' %}">Sign up</a>
-            <br><br>
-            <a class="btn btn-secondary" href="{% url 'user_app:login' %}">Log in</a>
+            <br>
+            <br>
+            <div class="d-flex justify-content-center align-items-center">
+              <div class="d-flex">
+                <a class="btn btn-primary btn-lg" href="{% url 'user_app:register' %}" style="background-color: #05386b; margin-right: 3em;">Sign up</a>
+                <a class="btn btn-secondary btn-lg" href="{% url 'user_app:login' %}" style="background-color: #05386b;">Log in</a>
+              </div>
+            </div>
           </div>
         </div>
+        
       </div>
   
       <!-- Second column -->
-      <div class="col-6 d-flex align-items-center justify-content-center" style="height: 100vh;">
+      <div class="col-6 d-flex align-items-center justify-content-center" style="height: calc(100vh - 70px);">
         <img src="{% static 'notes.svg' %}" class="img-fluid">
       </div>
     </div>

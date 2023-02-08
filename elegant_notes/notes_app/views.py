@@ -1,13 +1,13 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from django.contrib import messages
 # Create your views here.
+from .models import Note
+from .forms import NoteCreateForm,NoteUpdateForm
 
-def index_view(request):
 
-    context = {}
-    return render(request, 'index.html')
 
 def home_view(request):
-
-    context = {}
-    return render(request, 'home.html')
+    user = request.user
+    notes = Note.objects.filter(user=user).order_by('updated_on')
+    context = {'notes': notes}
+    return render(request, 'home.html', context)
