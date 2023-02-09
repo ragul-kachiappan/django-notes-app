@@ -6,14 +6,14 @@ from .models import Note
 from .forms import NoteCreateForm,NoteUpdateForm
 from django.contrib.auth.decorators import login_required
 
-
+#view for home of a user. Unauthenticated users will be redirected
 @login_required(login_url="/account/login/")
 def home_view(request):
     notes = Note.objects.filter(author=request.user.id).order_by('updated_on')
     context = {'notes': notes}
     return render(request, 'home.html', context)
 
-
+# delete_view, create_view and update_view receive request from AJAX section and status code and Json response is returned 
 def delete_view(request,pk):
     if request.method != 'DELETE':
         return JsonResponse({'error': 'Invalid request method. Use DELETE.'}, status=400)

@@ -107,16 +107,12 @@
             background-color: #379683;
             color: white;
         }
-
-
-
-
     </style>
 
 </head>
 
 <body>
-
+    <!-- -----------------navbar section-------------------------- -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom-color">
         <a class="navbar-brand navbar-brand-font" href="/notes/"><span class="logo-custom"><i
                     class="fas fa-sticky-note"></i></span><span class="logo-custom"> Elegant Notes</span></span></a>
@@ -137,14 +133,18 @@
                 </li>
             </ul>
         </div>
-        
+        <!-- user name display and logout functionality -->
         <span class="user-name">Hello, {{request.user}} </span>
-        <span ><a class="custom-logout" href="{% url 'user_app:logout' %}"> Logout</a></span>
+        <span><a class="custom-logout" href="{% url 'user_app:logout' %}"> Logout</a></span>
 
     </nav>
+
+
     <div class="container-fluid">
+
+        <!-- left side div for displaying list of notes -->
         <div class="row">
-            <div class="col-md-4 scroll1" 
+            <div class="col-md-4 scroll1"
                 style="background-color: #8ee4af; height: calc(100vh - 54px); overflow-y: scroll; display: inline-flexbox; flex-direction: column; text-align: center;">
                 <!-- Left Column -->
                 <!-- Add your list of notes here, with title, edit, and delete buttons -->
@@ -159,7 +159,8 @@
                         <button type="button" class="btn btn-block mb-3 btn-custom-style view-button"
                             data-title="{{ note.title }}" data-description="{{ note.description }}">View</button>
                         <button type="button" class="btn btn-block mb-3 btn-custom-style edit-button"
-                            data-bs-toggle="modal" data-bs-target="#updateModal" data-note-id="{{ note.id }}" data-title="{{ note.title }}" data-description="{{ note.description }}">Edit</button>
+                            data-bs-toggle="modal" data-bs-target="#updateModal" data-note-id="{{ note.id }}"
+                            data-title="{{ note.title }}" data-description="{{ note.description }}">Edit</button>
                         <button type="button" class="btn btn-block mb-3 btn-custom-style delete-button"
                             data-bs-toggle="modal" data-bs-target="#deleteModal"
                             data-note-id="{{ note.id }}">Delete</button>
@@ -167,26 +168,31 @@
                 </div>
                 {% endfor %}
             </div>
+
+
+            <!-- right side div for displaying note content -->
             <div class="col-md-8 note-content scroll2"
                 style="background-color: #edf5e1; height: calc(100vh - 54px); overflow-y: scroll;">
-                <!-- Right Column -->
-                <!-- Add your note content here -->
-                <div class="notepad mt-3 p-3" style="background-color: #edf5e1; border-radius: 10px; box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);">
-                    <div class="notepad-header d-flex justify-content-between align-items-center p-2" style="background-color: #05386b;">
-                      <h5 class="m-0" style="color: #edf5e1;">Notepad</h5>
-                      <div class="ml-auto" style="background-color: #05386B; width: 30px; height: 30px; border-radius: 50%;"></div>
+
+                <div class="notepad mt-3 p-3"
+                    style="background-color: #edf5e1; border-radius: 10px; box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);">
+                    <div class="notepad-header d-flex justify-content-between align-items-center p-2"
+                        style="background-color: #05386b;">
+                        <h5 class="m-0" style="color: #edf5e1;">Notepad</h5>
+                        <div class="ml-auto"
+                            style="background-color: #05386B; width: 30px; height: 30px; border-radius: 50%;"></div>
                     </div>
-                
                     <div class="notepad-body p-3" style="background-color: #fff; min-height: 400px;">
-                      <h5 id="note-title" class="text-muted m-0">Note Title</h5>
-                      <hr class="my-3">
-                      <p id="note-description" class="m-0 text-muted" style="min-height: 240px;">Note Description</p>
+                        <h5 id="note-title" class="text-muted m-0">Note Title</h5>
+                        <hr class="my-3">
+                        <p id="note-description" class="m-0 text-muted" style="min-height: 240px;">Note Description</p>
                     </div>
-                
-                    <div class="notepad-footer d-flex align-items-center p-2" style="background-color: #05386b; color: #fff;">
-                      <div style="background-color: #05386B; width: 30px; height: 30px; border-radius: 50%;"></div>
+
+                    <div class="notepad-footer d-flex align-items-center p-2"
+                        style="background-color: #05386b; color: #fff;">
+                        <div style="background-color: #05386B; width: 30px; height: 30px; border-radius: 50%;"></div>
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
     </div>
@@ -209,100 +215,105 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="delete-note-button" value="" >Delete</button>
+                    <button type="button" class="btn btn-danger" id="delete-note-button" value="">Delete</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Create Modal -->
-    <div class="modal fade" id="createModal"  tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
-    aria-hidden="true">
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-      
-            <!-- Modal Header -->
-            <div class="modal-header">
-              <h4 class="modal-title">Create Note</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-      
-            <!-- Modal body -->
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="title">Title:</label>
-                  <input type="text" class="form-control" id="title" required>
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Create Note</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="form-group">
-                  <label for="description">Description:</label>
-                  <textarea class="form-control" rows="10" id="description" required></textarea>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="title">Title:</label>
+                            <input type="text" class="form-control" id="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description:</label>
+                            <textarea class="form-control" rows="10" id="description" required></textarea>
+                        </div>
+                    </form>
                 </div>
-              </form>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="create-note-button">Create Note</button>
+                </div>
+
             </div>
-      
-            <!-- Modal footer -->
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="create-note-button">Create Note</button>
-            </div>
-      
-          </div>
         </div>
-      </div>
+    </div>
 
 
     <!-- update modal -->
-    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="updateModalLabel">Update Note</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form id="updateNoteForm">
-                {% csrf_token %}
-                <div class="form-group update-content">
-                  <label for="updateTitle" >Title</label>
-                  <input type="text" class="form-control note-title-update" id="updateTitle" name="title" value="">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">Update Note</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="form-group note-description-update">
-                  <label for="updateDescription" >Description</label>
-                  <textarea class="form-control " id="updateDescription" name="description" rows="10"></textarea>
+                <div class="modal-body">
+                    <form id="updateNoteForm">
+                        {% csrf_token %}
+                        <div class="form-group update-content">
+                            <label for="updateTitle">Title</label>
+                            <input type="text" class="form-control note-title-update" id="updateTitle" name="title"
+                                value="">
+                        </div>
+                        <div class="form-group note-description-update">
+                            <label for="updateDescription">Description</label>
+                            <textarea class="form-control " id="updateDescription" name="description"
+                                rows="10"></textarea>
+                        </div>
+                    </form>
                 </div>
-              </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="update-note-button" value="">Update</button>
+                </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="update-note-button" value="">Update</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 
-      <!-- alertModal -->
 
-      <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
+    <!-- alertModal -->
+
+    <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="alertModalLabel">Message</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alertModalLabel">Message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Success/Failure message goes here...</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="modal-body">
-              <p>Success/Failure message goes here...</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 
 
 
@@ -316,7 +327,7 @@
 
 
 
-<!-- script for note view -->
+    <!-- script for note view -->
     <script>
         document.querySelectorAll('.view-button').forEach(function (button) {
             button.addEventListener('click', function () {
@@ -350,12 +361,12 @@
 
 
 
-<!-- script for delete functionality -->
+    <!-- script for delete functionality -->
     <script>
         $(document).on("click", ".options .delete-button", function () {
             $("#deleteModal").modal("show");
             var note_id = $(this).data('note-id');
-            $(".modal-footer #delete-note-button").val( note_id );
+            $(".modal-footer #delete-note-button").val(note_id);
 
         });
 
@@ -373,12 +384,11 @@
                     begin = dc.indexOf(prefix);
                     if (begin != 0) return null;
                 }
-                else
-                {
+                else {
                     begin += 2;
                     var end = document.cookie.indexOf(";", begin);
                     if (end == -1) {
-                    end = dc.length;
+                        end = dc.length;
                     }
                 }
                 // because unescape has been deprecated, replaced with decodeURI
@@ -390,16 +400,16 @@
             $.ajax({
                 url: "/notes/delete/" + note_id,
                 type: "DELETE",
-                beforeSend: function(xhr) {
+                beforeSend: function (xhr) {
                     xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
                 },
                 success: function (message, status, xhr) {
-                    if (xhr.status === 200 ) {
+                    if (xhr.status === 200) {
                         // Show a success message to the user
                         $("#alertModal .modal-body").html("<p>Note has been deleted successfully.</p>");
                         $("#deleteModal").modal("hide");
                         $("#alertModal").modal("show");
-                        setTimeout(function() {
+                        setTimeout(function () {
                             location.reload()
                         }, 2000);
 
@@ -408,20 +418,20 @@
                         $("#alertModal .modal-body").html("<p>Error: Note not found</p>");
                         $("#deleteModal").modal("hide");
                         $("#alertModal").modal("show");
-                        setTimeout(function() {
+                        setTimeout(function () {
                             location.reload()
                         }, 2000);
 
                     }
                 },
-                error: function(error) {
+                error: function (error) {
                     // Show an error message to the user
                     $("#alertModal .modal-body").html("<p>An error occurred while deleting the note, please try again.</p>");
                     $("#deleteModal").modal("hide");
-                        $("#alertModal").modal("show");
-                        setTimeout(function() {
-                            location.reload()
-                        }, 2000);
+                    $("#alertModal").modal("show");
+                    setTimeout(function () {
+                        location.reload()
+                    }, 2000);
                 }
             });
 
@@ -429,7 +439,7 @@
         });
 
     </script>
-    
+
     <!-- script for create functionality -->
     <script>
         $(document).on("click", ".collapse .new-note-custom", function () {
@@ -450,12 +460,11 @@
                     begin = dc.indexOf(prefix);
                     if (begin != 0) return null;
                 }
-                else
-                {
+                else {
                     begin += 2;
                     var end = document.cookie.indexOf(";", begin);
                     if (end == -1) {
-                    end = dc.length;
+                        end = dc.length;
                     }
                 }
                 // because unescape has been deprecated, replaced with decodeURI
@@ -471,35 +480,35 @@
                     description: description
                 },
                 success: function (message, status, xhr) {
-                    if (xhr.status === 200 ) {
+                    if (xhr.status === 200) {
                         // Show a success message to the user
                         $("#alertModal .modal-body").html("<p>Note has been created successfully.</p>");
                         $("#createModal").modal("hide");
                         $("#alertModal").modal("show");
-                        setTimeout(function() {
+                        setTimeout(function () {
                             location.reload()
                         }, 2000);
-                        
+
 
                     }
                     else {
                         $("#alertModal .modal-body").html("<p>Note created failed.</p>");
                         $("#createModal").modal("hide");
                         $("#alertModal").modal("show");
-                        setTimeout(function() {
+                        setTimeout(function () {
                             location.reload()
                         }, 2000);
 
                     }
                 },
-                error: function(error) {
+                error: function (error) {
                     // Show an error message to the user
                     $("#alertModal .modal-body").html("<p>An error occurred while creating the note, please try again.</p>");
                     $("#createModal").modal("hide");
-                        $("#alertModal").modal("show");
-                        setTimeout(function() {
-                            location.reload()
-                        }, 2000);
+                    $("#alertModal").modal("show");
+                    setTimeout(function () {
+                        location.reload()
+                    }, 2000);
                 }
             });
 
@@ -509,19 +518,19 @@
 
     </script>
 
-  <!-- script for update functionality -->
+    <!-- script for update functionality -->
     <script>
         $(document).on("click", ".options .edit-button", function () {
 
             $("#updateModal").modal("show");
             //passing note_id from edit button into update note button in update modal
             var note_id = $(this).data('note-id');
-            $(".modal-footer #update-note-button").val( note_id );
-            
+            $(".modal-footer #update-note-button").val(note_id);
+
             //placing existing title and description in modal fields
             var note_title = $(this).data('title');
             var note_description = $(this).data('description');
-            $(".update-content .note-title-update").val( note_title );
+            $(".update-content .note-title-update").val(note_title);
             //workaround for placing text in text area of update modal
             document.querySelector('.note-description-update').innerHTML = `
                 <label for="updateDescription" >Description</label>
@@ -546,12 +555,11 @@
                     begin = dc.indexOf(prefix);
                     if (begin != 0) return null;
                 }
-                else
-                {
+                else {
                     begin += 2;
                     var end = document.cookie.indexOf(";", begin);
                     if (end == -1) {
-                    end = dc.length;
+                        end = dc.length;
                     }
                 }
                 // because unescape has been deprecated, replaced with decodeURI
@@ -567,12 +575,12 @@
                     description: description
                 },
                 success: function (message, status, xhr) {
-                    if (xhr.status === 200 ) {
+                    if (xhr.status === 200) {
                         // Show a success message to the user
                         $("#alertModal .modal-body").html("<p>Note updated successfully.</p>");
                         $("#updateModal").modal("hide");
                         $("#alertModal").modal("show");
-                        setTimeout(function() {
+                        setTimeout(function () {
                             location.reload()
                         }, 2000);
 
@@ -581,19 +589,19 @@
                         $("#alertModal .modal-body").html("<p>Error: Note not updated.</p>");
                         $("#updateModal").modal("hide");
                         $("#alertModal").modal("show");
-                        setTimeout(function() {
+                        setTimeout(function () {
                             location.reload()
                         }, 2000);
                     }
                 },
-                error: function(error) {
+                error: function (error) {
                     // Show an error message to the user
                     $("#alertModal .modal-body").html("<p>An error occurred while updating the note, please try again.</p>");
                     $("#updateModal").modal("hide");
-                        $("#alertModal").modal("show");
-                        setTimeout(function() {
-                            location.reload()
-                        }, 2000);
+                    $("#alertModal").modal("show");
+                    setTimeout(function () {
+                        location.reload()
+                    }, 2000);
                 }
             });
 
