@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %} 
-<!-- Container for the two columns -->
 
-<!-- Container for the two columns -->
 <div class="container-fluid">
     <!-- Row for the two columns -->
     <div class="row">
@@ -19,8 +17,8 @@
             <br>
             <div class="d-flex justify-content-center align-items-center">
               <div class="d-flex">
-                <a class="btn btn-primary btn-lg" href="{% url 'user_app:register' %}" style="background-color: #05386b; margin-right: 3em; font-family: sans-serif, Verdana, Tahoma;">Sign up</a>
-                <a class="btn btn-secondary btn-lg" href="{% url 'user_app:login' %}" style="background-color: #05386b; font-family: sans-serif, Verdana, Tahoma;">Log in</a>
+                <a class="btn btn-primary btn-lg home-button" href="{% url 'user_app:register' %}" style="background-color: #05386b; margin-right: 4em; font-family: sans-serif, Verdana, Tahoma;">Sign up</a>
+                <a class="btn btn-secondary btn-lg home-button" href="{% url 'user_app:login' %}" style="background-color: #05386b; margin-right: 1em; font-family: sans-serif, Verdana, Tahoma;">Log in</a>
               </div>
             </div>
           </div>

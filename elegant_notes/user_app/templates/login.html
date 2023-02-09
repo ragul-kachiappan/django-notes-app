@@ -72,11 +72,7 @@
 		}
 
 		#messages{
-			background-color: #379683;
-            
-			color: white;
-			padding: 10px;
-            padding-left: 40px;
+
 			margin-top: 10px;
 		}
 
@@ -134,7 +130,10 @@
 				</div>
                 {% for message in messages %}
 					{% if message.tags == "success" %}
-                    	<p id="messages">{{message}}</p>
+                    	<p id="messages" class="alert alert-success" role="alert">{{message}}</p>
+					{% endif %}
+					{% if message.tags == "info" %}
+					<p id="messages" class="alert alert-danger" role="alert">{{message}}</p>
 					{% endif %}
                 {% endfor %}
 				<div class="mt-4">

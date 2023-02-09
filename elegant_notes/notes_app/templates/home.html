@@ -44,8 +44,14 @@
             font-family: Sans-serif, Tahoma, Verdana;
             height: 40px;
             width: 80px;
-            display: inline-block;
+            margin-top: 0.5em;
+            margin-right: auto;
 
+        }
+
+        .edit-button {
+            margin-left: 1em;
+            margin-right: 1em;
         }
 
         .btn-custom-style:hover {
@@ -63,10 +69,10 @@
             display: inline-block;
             padding: 20px;
             text-align: center;
-            width: 300px;
             transition: all 0.3s ease-in-out;
             cursor: pointer;
-            margin-top: 20px;
+            margin: 1em;
+            justify-content: center;
         }
 
         .note:hover {
@@ -78,8 +84,7 @@
 
         .options button {
             /* width: 45%; */
-            display: inline-block;
-            margin-right: 5pxpx;
+            display: inline-flexbox;
         }
 
         .user-name {
@@ -139,16 +144,18 @@
     </nav>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4 scroll1"
-                style="background-color: #8ee4af; height: calc(100vh - 54px); overflow-y: scroll;">
+            <div class="col-md-4 scroll1" 
+                style="background-color: #8ee4af; height: calc(100vh - 54px); overflow-y: scroll; display: inline-flexbox; flex-direction: column; text-align: center;">
                 <!-- Left Column -->
                 <!-- Add your list of notes here, with title, edit, and delete buttons -->
                 {% for note in notes %}
-                <div class="note justify-content-md-center">
-                    <h2 class="text">{{note.title}}</h2>
-                    <p>Created : {{note.created_on}}</p>
-                    <p>Last Updated: {{note.updated_on}}</p>
-                    <div class="options">
+                <div class="note">
+                    <div style="height: 75%;">
+                        <h2 class="text">{{note.title}}</h2>
+                        <p>Created : {{note.created_on}}</p>
+                        <p>Last Updated: {{note.updated_on}}</p>
+                    </div>
+                    <div class="options" style="height: 25%; display: inline-flex; align-items: center;">
                         <button type="button" class="btn btn-block mb-3 btn-custom-style view-button"
                             data-title="{{ note.title }}" data-description="{{ note.description }}">View</button>
                         <button type="button" class="btn btn-block mb-3 btn-custom-style edit-button"
@@ -276,7 +283,26 @@
         </div>
       </div>
 
+      <!-- alertModal -->
 
+      <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="alertModalLabel">Message</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Success/Failure message goes here...</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
 
@@ -360,12 +386,7 @@
                 return decodeURI(dc.substring(begin + prefix.length, end));
             }
 
-            function deleteNoteSuccess() {
-                $("#deleteModal .modal-body").html("<p>Note has been deleted successfully.</p>");
-                setTimeout(function() {
-                    $("#deleteModal").modal("hide");
-                }, 3000);
-            }
+
             $.ajax({
                 url: "/notes/delete/" + note_id,
                 type: "DELETE",
@@ -375,22 +396,32 @@
                 success: function (message, status, xhr) {
                     if (xhr.status === 200 ) {
                         // Show a success message to the user
-
-                        deleteNoteSuccess()
-                        location.reload()
+                        $("#alertModal .modal-body").html("<p>Note has been deleted successfully.</p>");
+                        $("#deleteModal").modal("hide");
+                        $("#alertModal").modal("show");
+                        setTimeout(function() {
+                            location.reload()
+                        }, 2000);
 
                     }
                     else {
-                        $("#deleteModal .modal-body").html("<p>Error: Note not found.</p>");
+                        $("#alertModal .modal-body").html("<p>Error: Note not found</p>");
+                        $("#deleteModal").modal("hide");
+                        $("#alertModal").modal("show");
                         setTimeout(function() {
-                            $("#deleteModal").modal("hide");
-                        }, 1000);
+                            location.reload()
+                        }, 2000);
 
                     }
                 },
                 error: function(error) {
                     // Show an error message to the user
-                    $("#deleteModal .modal-body").html("<p>An error occurred while deleting the note. Please try again later.</p>");
+                    $("#alertModal .modal-body").html("<p>An error occurred while deleting the note, please try again.</p>");
+                    $("#deleteModal").modal("hide");
+                        $("#alertModal").modal("show");
+                        setTimeout(function() {
+                            location.reload()
+                        }, 2000);
                 }
             });
 
@@ -442,24 +473,33 @@
                 success: function (message, status, xhr) {
                     if (xhr.status === 200 ) {
                         // Show a success message to the user
-                        $("#createModal .modal-body").html("<p>Note has been created successfully.</p>");
+                        $("#alertModal .modal-body").html("<p>Note has been created successfully.</p>");
+                        $("#createModal").modal("hide");
+                        $("#alertModal").modal("show");
                         setTimeout(function() {
-                            $("#createModal").modal("hide");
-                        }, 3000);
-                        location.reload()
+                            location.reload()
+                        }, 2000);
+                        
 
                     }
                     else {
-                        $("#createModal .modal-body").html("<p>Error: Note not created.</p>");
+                        $("#alertModal .modal-body").html("<p>Note created failed.</p>");
+                        $("#createModal").modal("hide");
+                        $("#alertModal").modal("show");
                         setTimeout(function() {
-                            $("#createModal").modal("hide");
-                        }, 1000);
+                            location.reload()
+                        }, 2000);
 
                     }
                 },
                 error: function(error) {
                     // Show an error message to the user
-                    $("#createModal .modal-body").html("<p>An error occurred while creating the note. Please try again later.</p>");
+                    $("#alertModal .modal-body").html("<p>An error occurred while creating the note, please try again.</p>");
+                    $("#createModal").modal("hide");
+                        $("#alertModal").modal("show");
+                        setTimeout(function() {
+                            location.reload()
+                        }, 2000);
                 }
             });
 
@@ -529,24 +569,31 @@
                 success: function (message, status, xhr) {
                     if (xhr.status === 200 ) {
                         // Show a success message to the user
-                        $("#updateModal .modal-body").html("<p>Note has been updated successfully.</p>");
+                        $("#alertModal .modal-body").html("<p>Note updated successfully.</p>");
+                        $("#updateModal").modal("hide");
+                        $("#alertModal").modal("show");
                         setTimeout(function() {
-                            $("#updateModal").modal("hide");
-                        }, 3000);
-                        location.reload()
+                            location.reload()
+                        }, 2000);
 
                     }
                     else {
-                        $("#updateModal .modal-body").html("<p>Error: Note not updated.</p>");
+                        $("#alertModal .modal-body").html("<p>Error: Note not updated.</p>");
+                        $("#updateModal").modal("hide");
+                        $("#alertModal").modal("show");
                         setTimeout(function() {
-                            $("#updateModal").modal("hide");
-                        }, 1000);
-
+                            location.reload()
+                        }, 2000);
                     }
                 },
                 error: function(error) {
                     // Show an error message to the user
-                    $("#updateModal .modal-body").html("<p>An error occurred while updating the note. Please try again later.</p>");
+                    $("#alertModal .modal-body").html("<p>An error occurred while updating the note, please try again.</p>");
+                    $("#updateModal").modal("hide");
+                        $("#alertModal").modal("show");
+                        setTimeout(function() {
+                            location.reload()
+                        }, 2000);
                 }
             });
 
