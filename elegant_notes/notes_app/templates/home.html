@@ -81,26 +81,39 @@
             display: inline-block;
             margin-right: 5pxpx;
         }
+
+        .user-name {
+            font-size: 18px;
+            color: #fff;
+            margin-right: 20px;
+        }
+
+        .custom-logout {
+            background-color: #edf5e1;
+            color: #05386b;
+            font-family: Sans-serif, Tahoma, Verdana;
+            padding: 5px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .custom-logout:hover {
+            background-color: #379683;
+            color: white;
+        }
+
+
+
+
     </style>
 
 </head>
 
 <body>
-    <!-- <nav class="navbar navbar-expand-lg navbar-dark navbar-custom-color">
-        <a class="navbar-brand navbar-brand-font" href=""><span class="logo-custom"><i class="fas fa-sticky-note"></i></span><span class="logo-custom"> Elegant Notes</span></span></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link new-note-custom" href="#"><span class="input-group-text"><i class="fas fa-plus"></i><span style="padding-left: 0.5em; font-family: sans-serif, Verdana, Tahoma;">New Note</span></span></a>
-            </li>
-          </ul>
-        </div>
-    </nav> -->
+
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom-color">
-        <a class="navbar-brand navbar-brand-font" href=""><span class="logo-custom"><i
+        <a class="navbar-brand navbar-brand-font" href="/notes/"><span class="logo-custom"><i
                     class="fas fa-sticky-note"></i></span><span class="logo-custom"> Elegant Notes</span></span></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -119,6 +132,10 @@
                 </li>
             </ul>
         </div>
+        
+        <span class="user-name">Hello, {{request.user}} </span>
+        <span ><a class="custom-logout" href="{% url 'user_app:logout' %}"> Logout</a></span>
+
     </nav>
     <div class="container-fluid">
         <div class="row">
@@ -135,7 +152,7 @@
                         <button type="button" class="btn btn-block mb-3 btn-custom-style view-button"
                             data-title="{{ note.title }}" data-description="{{ note.description }}">View</button>
                         <button type="button" class="btn btn-block mb-3 btn-custom-style edit-button"
-                            data-bs-toggle="modal" data-bs-target="#updateModal">Edit</button>
+                            data-bs-toggle="modal" data-bs-target="#updateModal" data-note-id="{{ note.id }}" data-title="{{ note.title }}" data-description="{{ note.description }}">Edit</button>
                         <button type="button" class="btn btn-block mb-3 btn-custom-style delete-button"
                             data-bs-toggle="modal" data-bs-target="#deleteModal"
                             data-note-id="{{ note.id }}">Delete</button>
@@ -147,9 +164,22 @@
                 style="background-color: #edf5e1; height: calc(100vh - 54px); overflow-y: scroll;">
                 <!-- Right Column -->
                 <!-- Add your note content here -->
-                <h2 id="note-title"></h2>
-                <p id="note-description"></p>
-
+                <div class="notepad mt-3 p-3" style="background-color: #edf5e1; border-radius: 10px; box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);">
+                    <div class="notepad-header d-flex justify-content-between align-items-center p-2" style="background-color: #05386b;">
+                      <h5 class="m-0" style="color: #edf5e1;">Notepad</h5>
+                      <div class="ml-auto" style="background-color: #05386B; width: 30px; height: 30px; border-radius: 50%;"></div>
+                    </div>
+                
+                    <div class="notepad-body p-3" style="background-color: #fff; min-height: 400px;">
+                      <h5 id="note-title" class="text-muted m-0">Note Title</h5>
+                      <hr class="my-3">
+                      <p id="note-description" class="m-0 text-muted" style="min-height: 240px;">Note Description</p>
+                    </div>
+                
+                    <div class="notepad-footer d-flex align-items-center p-2" style="background-color: #05386b; color: #fff;">
+                      <div style="background-color: #05386B; width: 30px; height: 30px; border-radius: 50%;"></div>
+                    </div>
+                  </div>
             </div>
         </div>
     </div>
@@ -181,7 +211,7 @@
     <!-- Create Modal -->
     <div class="modal fade" id="createModal"  tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
     aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
           <div class="modal-content">
       
             <!-- Modal Header -->
@@ -217,7 +247,7 @@
 
     <!-- update modal -->
     <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="updateModalLabel">Update Note</h5>
@@ -228,19 +258,19 @@
             <div class="modal-body">
               <form id="updateNoteForm">
                 {% csrf_token %}
-                <div class="form-group">
-                  <label for="updateTitle">Title</label>
-                  <input type="text" class="form-control" id="updateTitle" name="title">
+                <div class="form-group update-content">
+                  <label for="updateTitle" >Title</label>
+                  <input type="text" class="form-control note-title-update" id="updateTitle" name="title" value="">
                 </div>
-                <div class="form-group">
-                  <label for="updateDescription">Description</label>
-                  <textarea class="form-control" id="updateDescription" name="description" rows="3"></textarea>
+                <div class="form-group note-description-update">
+                  <label for="updateDescription" >Description</label>
+                  <textarea class="form-control " id="updateDescription" name="description" rows="10"></textarea>
                 </div>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="saveNoteButton">Save</button>
+              <button type="button" class="btn btn-primary" id="update-note-button" value="">Update</button>
             </div>
           </div>
         </div>
@@ -267,8 +297,23 @@
                 const title = this.getAttribute('data-title');
                 const description = this.getAttribute('data-description');
                 document.querySelector('.note-content').innerHTML = `
-            <h2>${title}</h2>
-            <p>${description}</p>
+                <!-- Add your note content here -->
+                <div class="notepad mt-3 p-3" style="background-color: #edf5e1; border-radius: 10px; box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);">
+                    <div class="notepad-header d-flex justify-content-between align-items-center p-2" style="background-color: #05386b;">
+                      <h5 class="m-0" style="color: #edf5e1;">Notepad</h5>
+                      <div class="ml-auto" style="background-color: #05386B; width: 30px; height: 30px; border-radius: 50%;"></div>
+                    </div>
+                
+                    <div class="notepad-body p-3" style="background-color: #fff; min-height: 400px;">
+                      <h5 id="note-title" class="text m-0">${title}</h5>
+                      <hr class="my-3">
+                      <p id="note-description" class="m-0 text" style="min-height: 240px;">${description}</p>
+                    </div>
+                
+                    <div class="notepad-footer d-flex align-items-center p-2" style="background-color: #05386b; color: #fff;">
+                      <div style="background-color: #05386B; width: 30px; height: 30px; border-radius: 50%;"></div>
+                    </div>
+                  </div>
         `;
             });
         });
@@ -427,11 +472,90 @@
   <!-- script for update functionality -->
     <script>
         $(document).on("click", ".options .edit-button", function () {
+
             $("#updateModal").modal("show");
+            //passing note_id from edit button into update note button in update modal
+            var note_id = $(this).data('note-id');
+            $(".modal-footer #update-note-button").val( note_id );
+            
+            //placing existing title and description in modal fields
+            var note_title = $(this).data('title');
+            var note_description = $(this).data('description');
+            $(".update-content .note-title-update").val( note_title );
+            //workaround for placing text in text area of update modal
+            document.querySelector('.note-description-update').innerHTML = `
+                <label for="updateDescription" >Description</label>
+                <textarea class="form-control " id="updateDescription" name="description" rows="10">${note_description}</textarea>
+            `;
 
         });
-    </script>
 
+        $(document).on("click", "#update-note-button", function () {
+            // getting title and description from the updateModal
+            var title = $('#updateTitle').val();
+            var description = $('#updateDescription').val();
+            // note_id that was passed to update note button from edit button
+            var note_id = $(this).attr('value');
+
+
+            function getCookie(name) {
+                var dc = document.cookie;
+                var prefix = name + "=";
+                var begin = dc.indexOf("; " + prefix);
+                if (begin == -1) {
+                    begin = dc.indexOf(prefix);
+                    if (begin != 0) return null;
+                }
+                else
+                {
+                    begin += 2;
+                    var end = document.cookie.indexOf(";", begin);
+                    if (end == -1) {
+                    end = dc.length;
+                    }
+                }
+                // because unescape has been deprecated, replaced with decodeURI
+                //return unescape(dc.substring(begin + prefix.length, end));
+                return decodeURI(dc.substring(begin + prefix.length, end));
+            }
+            $.ajax({
+                type: 'POST',
+                url: "/notes/update/" + note_id,
+                data: {
+                    csrfmiddlewaretoken: getCookie("csrftoken"),
+                    title: title,
+                    description: description
+                },
+                success: function (message, status, xhr) {
+                    if (xhr.status === 200 ) {
+                        // Show a success message to the user
+                        $("#updateModal .modal-body").html("<p>Note has been updated successfully.</p>");
+                        setTimeout(function() {
+                            $("#updateModal").modal("hide");
+                        }, 3000);
+                        location.reload()
+
+                    }
+                    else {
+                        $("#updateModal .modal-body").html("<p>Error: Note not updated.</p>");
+                        setTimeout(function() {
+                            $("#updateModal").modal("hide");
+                        }, 1000);
+
+                    }
+                },
+                error: function(error) {
+                    // Show an error message to the user
+                    $("#updateModal .modal-body").html("<p>An error occurred while updating the note. Please try again later.</p>");
+                }
+            });
+
+
+        });
+
+
+
+    </script>
 </body>
 
 </html>

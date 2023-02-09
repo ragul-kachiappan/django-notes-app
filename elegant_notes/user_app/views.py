@@ -5,6 +5,7 @@ from .forms import CreateUserForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
+
 # Create your views here.
 
 def register_page(request):
@@ -16,7 +17,7 @@ def register_page(request):
             form.save()
             user = form.cleaned_data['username']
             messages.success(request, 'Account created successfully. Please Login.')
-            return redirect('login')
+            return redirect('user_app:login')
 
 
     context = {'form': form}
@@ -36,9 +37,9 @@ def login_page(request):
         else:
             messages.info(request, 'Username OR Password is incorrect')
 
-# def logout_user(request):
-#     return redirect('login')
-
-
     context = {}
     return render(request, 'login.html', context)
+
+def logout_page(request):
+    logout(request)
+    return redirect('home_app:main_page')
