@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'elegant_notes.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DB_PATH = "home/azureuser/db_dir"
+DB_PATH = Path("home/azureuser/db_dir")
 
 DATABASES = {
     'default': {
@@ -86,6 +86,7 @@ DATABASES = {
         'NAME': DB_PATH / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation
