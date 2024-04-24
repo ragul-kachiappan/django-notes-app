@@ -78,12 +78,11 @@ WSGI_APPLICATION = 'elegant_notes.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DB_PATH = Path("home/azureuser/db_dir")
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': DB_PATH / 'db.sqlite3',
+        'NAME': Path('/home/azureuser/db_dir/db.sqlite3'),
     }
 }
 
